@@ -32,4 +32,6 @@
     <string name="toast_stock_added_no_connectivity">Symbol %s added. Will refresh when network available.</string>
     <string name="toast_no_connectivity">Will refresh when network available.</string>
 
+    <!-- Detail Activity -->
+    <string name="detail_chart_no_data">No history available for this symbol</string>
 </resources>

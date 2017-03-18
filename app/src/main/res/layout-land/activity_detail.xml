@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Detail Layout for Grid -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/lib-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/detail_activity"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/detail_header"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/material_blue_500"
+        android:columnCount="2"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/detail_symbol_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Goog"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_large_size"/>
+
+        <TextView
+            android:id="@+id/detail_change_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:text="goog"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_small_size"/>
+
+        <TextView
+            android:id="@+id/detail_price_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:text="goog"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/text_medium_size"/>
+    </LinearLayout>
+
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/detail_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="@dimen/detail_chart_min_height"
+        android:padding="@dimen/line_chart_padding"
+        android:visibility="visible"/>
+</LinearLayout>
