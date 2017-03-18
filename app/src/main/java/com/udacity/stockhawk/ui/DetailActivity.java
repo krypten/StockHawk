@@ -3,9 +3,7 @@ package com.udacity.stockhawk.ui;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,7 +14,6 @@ import com.udacity.stockhawk.data.Stock;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import lecho.lib.hellocharts.model.Axis;
@@ -25,8 +22,6 @@ import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
-
-import static android.R.attr.data;
 
 public class DetailActivity extends AppCompatActivity {
 	private Stock mStock;
