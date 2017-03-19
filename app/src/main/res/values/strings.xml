@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/tools">
     <string name="app_name">Stock Hawk</string>
 
     <string name="sample_symbol">GOOG</string>
@@ -35,4 +35,16 @@
 
     <!-- Detail Activity -->
     <string name="detail_chart_no_data">No history available for this symbol</string>
+
+    <!-- A11y and Content Descriptions -->
+    <string name="content_description_symbol">Symbol of the stock</string>
+    <string name="content_description_price">Price of the stock</string>
+    <string name="content_description_change">Change in the price of the stock</string>
+    <string name="content_description_dialog">Placeholder to add stock</string>
+    <string name="content_description_add_stock">Add stock</string>
+
+    <string name="a11y_symbol">Symbol: <xliff:g id="condition">%1$s</xliff:g></string>
+    <string name="a11y_price">Price: <xliff:g id="condition">%1$s</xliff:g></string>
+    <string name="a11y_change">Change: <xliff:g id="condition">%1$s</xliff:g></string>
+
 </resources>

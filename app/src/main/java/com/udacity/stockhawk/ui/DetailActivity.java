@@ -39,10 +39,18 @@ public class DetailActivity extends AppCompatActivity {
 		}
 
 		final ActionBar actionBar = getSupportActionBar();
+		TextView textView = null;
 		if (mStock != null) {
-			((TextView) findViewById(R.id.detail_symbol_textview)).setText(mStock.getSymbol());
-			((TextView) findViewById(R.id.detail_price_textview)).setText(mStock.getPrice());
-			((TextView) findViewById(R.id.detail_change_textview)).setText(mStock.getChange());
+			textView = ((TextView) findViewById(R.id.detail_symbol_textview));
+			textView.setText(mStock.getSymbol());
+			textView.setContentDescription(getString(R.string.a11y_symbol, mStock.getSymbol()));
+			textView = ((TextView) findViewById(R.id.detail_price_textview));
+			textView.setText(mStock.getPrice());
+			textView.setContentDescription(getString(R.string.a11y_price, mStock.getPrice()));
+			textView = ((TextView) findViewById(R.id.detail_change_textview));
+			textView.setText(mStock.getChange());
+			textView.setContentDescription(getString(R.string.a11y_change, mStock.getChange()));
+
 			findViewById(R.id.detail_header).setBackgroundColor(getResources().getColor(mStock.getStockColor()));
 			createHistoryChart((LineChartView) findViewById(R.id.detail_chart), mStock);
 		}

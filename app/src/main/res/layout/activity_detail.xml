@@ -18,6 +18,8 @@
             android:layout_width="@dimen/detail_inner_layout_size"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:nextFocusDown="@+id/detail_chart"
+            android:nextFocusRight="@+id/detail_change_textview"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/text_large_size"/>
 
@@ -34,6 +36,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center_vertical"
+                android:nextFocusDown="@+id/detail_price_textview"
+                android:nextFocusLeft="@id/detail_symbol_textview"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_small_size"/>
 
@@ -43,6 +47,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center_vertical"
+                android:nextFocusDown="@id/detail_chart"
+                android:nextFocusLeft="@id/detail_symbol_textview"
+                android:nextFocusUp="@id/detail_change_textview"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_medium_size"/>
         </LinearLayout>
@@ -53,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="@dimen/detail_chart_min_height"
+        android:nextFocusUp="@id/detail_symbol_textview"
         android:padding="@dimen/line_chart_padding"
         android:visibility="visible"/>
 </LinearLayout>

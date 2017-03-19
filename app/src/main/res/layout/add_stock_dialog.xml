@@ -14,6 +14,7 @@
         android:layout_marginRight="@dimen/dialog_box_layout_margin_narrow"
         android:layout_marginStart="@dimen/dialog_box_layout_margin_narrow"
         android:layout_marginTop="@dimen/dialog_box_layout_margin_wide"
+        android:contentDescription="@string/content_description_dialog"
         android:hint="@string/dialog_hint"
         android:inputType="textCapCharacters"/>
 </LinearLayout>

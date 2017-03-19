@@ -16,7 +16,10 @@
         style="@style/StockSymbolTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/content_description_symbol"
         android:gravity="start|center_vertical"
+        android:nextFocusForward="@+id/price"
+        android:nextFocusRight="@+id/price"
         tools:text="@string/sample_symbol"/>
 
     <LinearLayout
@@ -32,6 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/list_item_quote_text_view_margin_right"
             android:layout_marginRight="@dimen/list_item_quote_text_view_margin_right"
+            android:contentDescription="@string/content_description_price"
+            android:nextFocusForward="@+id/change"
+            android:nextFocusLeft="@id/symbol"
+            android:nextFocusRight="@+id/change"
             tools:text="@string/sample_price"/>
 
         <TextView
@@ -39,6 +46,8 @@
             style="@style/PercentChangeTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_change"
+            android:nextFocusLeft="@id/price"
             android:paddingEnd="@dimen/list_item_quote_text_view_padding"
             android:paddingLeft="@dimen/list_item_quote_text_view_padding"
             android:paddingRight="@dimen/list_item_quote_text_view_padding"
