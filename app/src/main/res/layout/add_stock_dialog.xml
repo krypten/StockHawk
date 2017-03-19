@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <EditText
         android:id="@+id/dialog_stock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="@dimen/dialog_box_layout_margin_narrow"
+        android:layout_marginEnd="@dimen/dialog_box_layout_margin_narrow"
+        android:layout_marginLeft="@dimen/dialog_box_layout_margin_narrow"
+        android:layout_marginRight="@dimen/dialog_box_layout_margin_narrow"
+        android:layout_marginStart="@dimen/dialog_box_layout_margin_narrow"
+        android:layout_marginTop="@dimen/dialog_box_layout_margin_wide"
         android:hint="@string/dialog_hint"
-        android:inputType="textCapCharacters" />
-
+        android:inputType="textCapCharacters"/>
 </LinearLayout>

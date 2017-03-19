@@ -1,5 +1,6 @@
 package com.udacity.stockhawk.sync;
 
+import android.annotation.SuppressLint;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
@@ -8,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.widget.Toast;
 
+import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
@@ -40,8 +43,7 @@ public final class QuoteSyncJob {
 	private QuoteSyncJob() {
 	}
 
-	public static void getQuotes(Context context) {
-
+	public static void getQuotes(final Context context) {
 		Timber.d("Running sync job");
 
 		Calendar from = Calendar.getInstance();
@@ -49,55 +51,50 @@ public final class QuoteSyncJob {
 		from.add(Calendar.YEAR, -YEARS_OF_HISTORY);
 
 		try {
-			Set<String> stockPref = PrefUtils.getStocks(context);
-			Set<String> stockCopy = new HashSet<>();
+			final Set<String> stockPref = PrefUtils.getStocks(context);
+			final Set<String> stockCopy = new HashSet<>();
 			stockCopy.addAll(stockPref);
-			String[] stockArray = stockPref.toArray(new String[stockPref.size()]);
-
 			Timber.d(stockCopy.toString());
 
+			final String[] stockArray = stockPref.toArray(new String[stockPref.size()]);
 			if (stockArray.length == 0) {
 				return;
 			}
 
-			Map<String, Stock> quotes = YahooFinance.get(stockArray);
-			Iterator<String> iterator = stockCopy.iterator();
-
+			final Map<String, Stock> quotes = YahooFinance.get(stockArray);
 			Timber.d(quotes.toString());
 
-			ArrayList<ContentValues> quoteCVs = new ArrayList<>();
-
+			final ArrayList<ContentValues> quoteCVs = new ArrayList<>();
+			final Iterator<String> iterator = stockCopy.iterator();
 			while (iterator.hasNext()) {
-				String symbol = iterator.next();
+				final String symbol = iterator.next();
+				final Stock stock = quotes.get(symbol);
+				final StockQuote quote = stock.getQuote();
+				if (quote != null && quote.getPrice() != null) {
+					float price = quote.getPrice().floatValue();
+					float change = quote.getChange().floatValue();
+					float percentChange = quote.getChangeInPercent().floatValue();
 
+					// WARNING! Don't request historical data for a stock that doesn't exist!
+					// The request will hang forever X_x
+					final List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
 
-				Stock stock = quotes.get(symbol);
-				StockQuote quote = stock.getQuote();
+					StringBuilder historyBuilder = new StringBuilder();
+					for (HistoricalQuote it : history) {
+						historyBuilder.append(it.getDate().getTimeInMillis());
+						historyBuilder.append(", ");
+						historyBuilder.append(it.getClose());
+						historyBuilder.append("\n");
+					}
 
-				float price = quote.getPrice().floatValue();
-				float change = quote.getChange().floatValue();
-				float percentChange = quote.getChangeInPercent().floatValue();
-
-				// WARNING! Don't request historical data for a stock that doesn't exist!
-				// The request will hang forever X_x
-				List<HistoricalQuote> history = stock.getHistory(from, to, Interval.WEEKLY);
-
-				StringBuilder historyBuilder = new StringBuilder();
-
-				for (HistoricalQuote it : history) {
-					historyBuilder.append(it.getDate().getTimeInMillis());
-					historyBuilder.append(", ");
-					historyBuilder.append(it.getClose());
-					historyBuilder.append("\n");
+					ContentValues quoteCV = new ContentValues();
+					quoteCV.put(Contract.Quote.COLUMN_SYMBOL, symbol);
+					quoteCV.put(Contract.Quote.COLUMN_PRICE, price);
+					quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
+					quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
+					quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
+					quoteCVs.add(quoteCV);
 				}
-
-				ContentValues quoteCV = new ContentValues();
-				quoteCV.put(Contract.Quote.COLUMN_SYMBOL, symbol);
-				quoteCV.put(Contract.Quote.COLUMN_PRICE, price);
-				quoteCV.put(Contract.Quote.COLUMN_PERCENTAGE_CHANGE, percentChange);
-				quoteCV.put(Contract.Quote.COLUMN_ABSOLUTE_CHANGE, change);
-				quoteCV.put(Contract.Quote.COLUMN_HISTORY, historyBuilder.toString());
-				quoteCVs.add(quoteCV);
 			}
 
 			context.getContentResolver()
@@ -105,15 +102,15 @@ public final class QuoteSyncJob {
 							Contract.Quote.URI,
 							quoteCVs.toArray(new ContentValues[quoteCVs.size()]));
 
-			Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+			final Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
 			context.sendBroadcast(dataUpdatedIntent);
-
 		} catch (IOException exception) {
 			Timber.e(exception, "Error fetching stock quotes");
 		}
 	}
 
-	private static void schedulePeriodic(Context context) {
+	@SuppressLint("NewApi")
+	private static void schedulePeriodic(final Context context) {
 		Timber.d("Scheduling a periodic task");
 		JobInfo.Builder builder = new JobInfo.Builder(PERIODIC_ID, new ComponentName(context, QuoteJobService.class));
 		builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
@@ -124,25 +121,25 @@ public final class QuoteSyncJob {
 		scheduler.schedule(builder.build());
 	}
 
-
 	public static synchronized void initialize(final Context context) {
 		schedulePeriodic(context);
 		syncImmediately(context);
 	}
 
-	public static synchronized void syncImmediately(Context context) {
-		ConnectivityManager cm =
+	@SuppressLint("NewApi")
+	public static synchronized void syncImmediately(final Context context) {
+		final ConnectivityManager cm =
 				(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+		final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-			Intent nowIntent = new Intent(context, QuoteIntentService.class);
+			final Intent nowIntent = new Intent(context, QuoteIntentService.class);
 			context.startService(nowIntent);
 		} else {
-			JobInfo.Builder builder = new JobInfo.Builder(ONE_OFF_ID, new ComponentName(context, QuoteJobService.class));
+			final JobInfo.Builder builder = new JobInfo.Builder(ONE_OFF_ID, new ComponentName(context, QuoteJobService.class));
 			builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
 					.setBackoffCriteria(INITIAL_BACKOFF, JobInfo.BACKOFF_POLICY_EXPONENTIAL);
 
-			JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
+			final JobScheduler scheduler = (JobScheduler) context.getSystemService(Context.JOB_SCHEDULER_SERVICE);
 			scheduler.schedule(builder.build());
 		}
 	}

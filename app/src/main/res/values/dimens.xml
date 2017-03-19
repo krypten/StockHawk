@@ -1,6 +1,10 @@
 <resources>
+    <!-- Activity -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="width_zero">0dp</dimen>
+    <!-- Shapes and Vectors -->
+    <dimen name="percent_shape_corner_radius">4dp</dimen>
     <!-- Detail View -->
     <dimen name="detail_inner_layout_size">200dp</dimen>
     <dimen name="detail_view_padding_vertical">25dp</dimen>
@@ -10,7 +14,20 @@
     <dimen name="text_large_size">60sp</dimen>
     <dimen name="text_medium_size">32sp</dimen>
     <dimen name="text_small_size">24sp</dimen>
-    <!-- Widget -->
-    <dimen name="widget_default_height">80dp</dimen>
-    <dimen name="widget_default_width">120dp</dimen>
+    <!-- AppWidget -->
+    <dimen name="appwidget_default_height">110dp</dimen>
+    <dimen name="appwidget_default_width">180dp</dimen>
+    <dimen name="appwidget_margin">2dp</dimen>
+    <!-- Floating Action Button -->
+    <dimen name="action_button_layout_margin">16dp</dimen>
+    <dimen name="action_button_elevation">6dp</dimen>
+    <dimen name="action_button_translation_z">12dp</dimen>
+    <!-- Stock Dialog Box -->
+    <dimen name="dialog_box_layout_margin_narrow">4dp</dimen>
+    <dimen name="dialog_box_layout_margin_wide">16dp</dimen>
+    <!-- List Item -->
+    <dimen name="list_item_quote_padding">16dp</dimen>
+    <dimen name="list_item_quote_text_view_padding">3dp</dimen>
+    <dimen name="list_item_quote_text_view_margin_right">10dp</dimen>
+
 </resources>

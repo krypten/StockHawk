@@ -57,7 +57,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_info"/>
         </receiver>
-        <service android:name=".widget.StockHawkAppWidgetIntentService"/>
+        <service
+            android:name=".widget.StockHawkAppWidgetIntentService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
     </application>
-
 </manifest>

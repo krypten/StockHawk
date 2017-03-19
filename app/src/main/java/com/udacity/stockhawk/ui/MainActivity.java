@@ -47,12 +47,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 	private StockAdapter adapter;
 
 	@Override
-	public void onClick(int position) {
+	public void onClick(final int position) {
 		Timber.d("Symbol clicked: %s", adapter.getSymbolAtPosition(position));
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);

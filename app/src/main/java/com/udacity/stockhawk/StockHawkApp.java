@@ -5,7 +5,6 @@ import android.app.Application;
 import timber.log.Timber;
 
 public class StockHawkApp extends Application {
-
 	@Override
 	public void onCreate() {
 		super.onCreate();

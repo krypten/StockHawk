@@ -1,5 +1,6 @@
 package com.udacity.stockhawk.widget;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Binder;
@@ -8,12 +9,8 @@ import android.widget.RemoteViewsService;
 
 import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
-import com.udacity.stockhawk.data.PrefUtils;
 import com.udacity.stockhawk.data.Stock;
 import com.udacity.stockhawk.ui.DetailActivity;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by krypten on 3/18/17.
@@ -22,6 +19,7 @@ public class StockHawkAppWidgetIntentService extends RemoteViewsService {
 	public RemoteViewsFactory onGetViewFactory(Intent intent) {
 		return new RemoteViewsFactory() {
 			private Cursor mData = null;
+			private Context mContext = getApplicationContext();
 
 			@Override
 			public void onCreate() {
@@ -38,13 +36,15 @@ public class StockHawkAppWidgetIntentService extends RemoteViewsService {
 				// mData. Therefore we need to clear (and finally restore) the calling identity so
 				// that calls use our process and permission
 				final long identityToken = Binder.clearCallingIdentity();
-
-				Set<String> stockPref = PrefUtils.getStocks(getApplicationContext());
+/*
+				Set<String> stockPref = PrefUtils.getStocks(mContext);
 				Set<String> stockCopy = new HashSet<>();
 				stockCopy.addAll(stockPref);
+
 				String[] stockArray = stockPref.toArray(new String[stockPref.size()]);
-				mData = getContentResolver().query(Contract.Quote.makeUriForStock(stockArray[0]),
-						(String[]) Contract.Quote.QUOTE_COLUMNS.toArray(),
+				*/
+				mData = mContext.getContentResolver().query(Contract.Quote.URI,
+						Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
 						null,
 						null,
 						null);
@@ -72,15 +72,19 @@ public class StockHawkAppWidgetIntentService extends RemoteViewsService {
 				}
 				RemoteViews views = new RemoteViews(getPackageName(),
 						R.layout.list_item_quote);
-				final String symbol = mData.getString(Contract.Quote.POSITION_SYMBOL);
-				final String price = mData.getString(Contract.Quote.POSITION_PRICE);
-				final String change = mData.getString(Contract.Quote.POSITION_ABSOLUTE_CHANGE);
-				views.setTextViewText(R.id.symbol, symbol);
-				views.setTextViewText(R.id.price, price);
-				views.setTextViewText(R.id.change, change);
+				final Stock stock = new Stock(
+						mData.getString(mData.getColumnIndex(Contract.Quote.COLUMN_SYMBOL)),
+						"",
+						mData.getString(mData.getColumnIndex(Contract.Quote.COLUMN_PRICE)),
+						mData.getString(mData.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE)),
+						Float.parseFloat(mData.getString(mData.getColumnIndex(Contract.Quote.COLUMN_ABSOLUTE_CHANGE))) > 0);
+				views.setTextViewText(R.id.symbol, stock.getSymbol());
+				views.setTextViewText(R.id.price, stock.getPrice());
+				views.setTextViewText(R.id.change, stock.getChange());
+				views.setTextColor(R.id.change, mContext.getResources().getColor(stock.getStockColor()));
 
-				final Intent fillInIntent = new Intent(getApplicationContext(), DetailActivity.class);
-				fillInIntent.putExtra(Stock.PARCELABLE_ID, new Stock(symbol, "", price, change, Float.parseFloat(change) > 0));
+				final Intent fillInIntent = new Intent(mContext, DetailActivity.class);
+				fillInIntent.putExtra(Stock.PARCELABLE_ID, stock);
 				views.setOnClickFillInIntent(R.id.list_item, fillInIntent);
 				return views;
 			}
@@ -106,6 +110,4 @@ public class StockHawkAppWidgetIntentService extends RemoteViewsService {
 			}
 		};
 	}
-
-	;
 }

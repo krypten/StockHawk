@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/appwidget_stock_frame"
              android:layout_width="match_parent"
-             android:layout_height="match_parent">
+             android:layout_height="match_parent"
+             android:layout_margin="@dimen/appwidget_margin"
+             android:background="@color/colorPrimaryDark">
 
     <ListView
-        android:id="@+id/widget_stock_list"
+        android:id="@+id/appwidget_stock_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </FrameLayout>

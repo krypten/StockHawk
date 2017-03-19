@@ -22,17 +22,15 @@ import butterknife.ButterKnife;
 
 
 public class AddStockDialog extends DialogFragment {
-
 	@SuppressWarnings("WeakerAccess")
 	@BindView(R.id.dialog_stock)
 	EditText stock;
 
 	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	public Dialog onCreateDialog(final Bundle savedInstanceState) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-		LayoutInflater inflater = LayoutInflater.from(getActivity());
+		final LayoutInflater inflater = LayoutInflater.from(getActivity());
 		@SuppressLint("InflateParams") View custom = inflater.inflate(R.layout.add_stock_dialog, null);
 
 		ButterKnife.bind(this, custom);
@@ -45,7 +43,6 @@ public class AddStockDialog extends DialogFragment {
 			}
 		});
 		builder.setView(custom);
-
 		builder.setMessage(getString(R.string.dialog_title));
 		builder.setPositiveButton(getString(R.string.dialog_add),
 				new DialogInterface.OnClickListener() {
@@ -55,23 +52,19 @@ public class AddStockDialog extends DialogFragment {
 				});
 		builder.setNegativeButton(getString(R.string.dialog_cancel), null);
 
-		Dialog dialog = builder.create();
-
-		Window window = dialog.getWindow();
+		final Dialog dialog = builder.create();
+		final Window window = dialog.getWindow();
 		if (window != null) {
 			window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		}
-
 		return dialog;
 	}
 
 	private void addStock() {
-		Activity parent = getActivity();
+		final Activity parent = getActivity();
 		if (parent instanceof MainActivity) {
 			((MainActivity) parent).addStock(stock.getText().toString());
 		}
 		dismissAllowingStateLoss();
 	}
-
-
 }

@@ -3,6 +3,8 @@ package com.udacity.stockhawk.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.udacity.stockhawk.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -74,6 +76,10 @@ public class Stock implements Parcelable {
 
 	public List<Quote> getHistory() {
 		return convertHistoryToList(mHistory);
+	}
+
+	public int getStockColor() {
+		return isProfit() ? R.color.material_green_700 : R.color.material_red_700;
 	}
 
 	private List<Quote> convertHistoryToList(final String mHistory) {

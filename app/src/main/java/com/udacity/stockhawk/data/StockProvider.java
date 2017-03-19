@@ -34,9 +34,9 @@ public class StockProvider extends ContentProvider {
 
 	@Nullable
 	@Override
-	public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+	public Cursor query(final @NonNull Uri uri, final String[] projection, final String selection, final String[] selectionArgs, final String sortOrder) {
 		Cursor returnCursor;
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
+		final SQLiteDatabase db = dbHelper.getReadableDatabase();
 
 		switch (uriMatcher.match(uri)) {
 			case QUOTE:
@@ -66,7 +66,7 @@ public class StockProvider extends ContentProvider {
 				throw new UnsupportedOperationException("Unknown URI:" + uri);
 		}
 
-		Context context = getContext();
+		final Context context = getContext();
 		if (context != null) {
 			returnCursor.setNotificationUri(context.getContentResolver(), uri);
 		}
@@ -81,8 +81,8 @@ public class StockProvider extends ContentProvider {
 
 	@Nullable
 	@Override
-	public Uri insert(@NonNull Uri uri, ContentValues values) {
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
+	public Uri insert(@NonNull Uri uri, final ContentValues values) {
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		Uri returnUri;
 
 		switch (uriMatcher.match(uri)) {
@@ -98,7 +98,7 @@ public class StockProvider extends ContentProvider {
 				throw new UnsupportedOperationException("Unknown URI:" + uri);
 		}
 
-		Context context = getContext();
+		final Context context = getContext();
 		if (context != null) {
 			context.getContentResolver().notifyChange(uri, null);
 		}
@@ -135,7 +135,7 @@ public class StockProvider extends ContentProvider {
 		}
 
 		if (rowsDeleted != 0) {
-			Context context = getContext();
+			final Context context = getContext();
 			if (context != null) {
 				context.getContentResolver().notifyChange(uri, null);
 			}
@@ -144,13 +144,12 @@ public class StockProvider extends ContentProvider {
 	}
 
 	@Override
-	public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+	public int update(@NonNull Uri uri, final ContentValues values, final String selection, final String[] selectionArgs) {
 		return 0;
 	}
 
 	@Override
 	public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
-
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 
 		switch (uriMatcher.match(uri)) {
@@ -170,7 +169,7 @@ public class StockProvider extends ContentProvider {
 					db.endTransaction();
 				}
 
-				Context context = getContext();
+				final Context context = getContext();
 				if (context != null) {
 					context.getContentResolver().notifyChange(uri, null);
 				}
