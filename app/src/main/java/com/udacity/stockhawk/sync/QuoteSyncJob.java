@@ -9,9 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
 
-import com.udacity.stockhawk.R;
 import com.udacity.stockhawk.data.Contract;
 import com.udacity.stockhawk.data.PrefUtils;
 
@@ -70,7 +68,7 @@ public final class QuoteSyncJob {
 				final String symbol = iterator.next();
 				final Stock stock = quotes.get(symbol);
 				final StockQuote quote = stock.getQuote();
-				if (quote != null && quote.getPrice() != null) {
+				if (stock != null && quote != null && quote.getPrice() != null) {
 					float price = quote.getPrice().floatValue();
 					float change = quote.getChange().floatValue();
 					float percentChange = quote.getChangeInPercent().floatValue();
