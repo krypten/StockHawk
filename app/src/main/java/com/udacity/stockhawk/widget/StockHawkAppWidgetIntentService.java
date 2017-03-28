@@ -31,18 +31,7 @@ public class StockHawkAppWidgetIntentService extends RemoteViewsService {
 				if (mData != null) {
 					mData.close();
 				}
-				// This method is called by the app hosting the widget (e.g., the launcher)
-				// However, our ContentProvider is not exported so it doesn't have access to the
-				// mData. Therefore we need to clear (and finally restore) the calling identity so
-				// that calls use our process and permission
 				final long identityToken = Binder.clearCallingIdentity();
-/*
-				Set<String> stockPref = PrefUtils.getStocks(mContext);
-				Set<String> stockCopy = new HashSet<>();
-				stockCopy.addAll(stockPref);
-
-				String[] stockArray = stockPref.toArray(new String[stockPref.size()]);
-				*/
 				mData = mContext.getContentResolver().query(Contract.Quote.URI,
 						Contract.Quote.QUOTE_COLUMNS.toArray(new String[]{}),
 						null,
