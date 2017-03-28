@@ -1,5 +1,5 @@
 <resources xmlns:xliff="http://schemas.android.com/tools">
-    <string name="app_name">Stock Hawk</string>
+    <string name="app_name" translatable="false">Stock Hawk</string>
 
     <string name="sample_symbol">GOOG</string>
     <string name="sample_price" translatable="false">1000.00</string>
